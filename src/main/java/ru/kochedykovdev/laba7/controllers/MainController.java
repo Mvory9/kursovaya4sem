@@ -1,71 +1,51 @@
 package ru.kochedykovdev.laba7.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainController {
-    @FXML
-    private TableView<?> tableViewMaterials;  // таблица для материалов
-    @FXML
-    private TableView<?> tableViewSuppliers;  // таблица поставщиков
-    @FXML
-    private TableView<?> tableViewTools;      // таблица инструментов
-    @FXML
-    private TableView<?> tableViewStocks;     // таблица остатков
 
-    // Кнопка "Приход"
     @FXML
-    private void onPrihodClick() {
-        openWindow("prihod-view.fxml", "Приход материала");
+    private void onPrihodClick(ActionEvent event) {
+        openWindow("prihod-view.fxml", "Приход материала", event);
     }
 
-    // Кнопка "Выдать материал"
     @FXML
-    private void onGiveMaterialClick() {
-        openWindow("give-material-view.fxml", "Выдача материала");
+    private void onGiveMaterialClick(ActionEvent event) {
+        openWindow("give-material-view.fxml", "Выдача материала", event);
     }
 
-    // Кнопка "Выдать инструмент"
     @FXML
-    private void onGiveToolClick() {
-        openWindow("give-tool-view.fxml", "Выдача инструмента");
+    private void onGiveToolClick(ActionEvent event) {
+        openWindow("give-tool-view.fxml", "Выдача инструмента", event);
     }
 
-    // Кнопка "Вернуть инструмент"
     @FXML
-    private void onReturnToolClick() {
-        openWindow("return-tool-view.fxml", "Возврат инструмента");
+    private void onReturnToolClick(ActionEvent event) {
+        openWindow("return-tool-view.fxml", "Возврат инструмента", event);
     }
 
-    // Общий метод для открытия окон
-    private void openWindow(String fxmlFile, String title) {
+    private void openWindow(String fxmlFile, String title, ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/kochedykovdev/laba7/" + fxmlFile));
             Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setScene(scene);
 
-            stage.showAndWait();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle(title);
+            dialogStage.setScene(scene);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(((Stage) ((Node) event.getSource()).getScene().getWindow()));
+
+            dialogStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void onRefreshClick() {
-        System.out.println("Обновление данных..."); // TODO
-    }
-
-    @FXML
-    private void onSearchClick() {
-        System.out.println("Поиск..."); // TODO
     }
 }
