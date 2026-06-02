@@ -16,7 +16,7 @@
    <center>
       <TabPane tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Справочники">
+          <Tab text="%tab.references">
             <content>
                   <VBox>
                      <children>
@@ -24,11 +24,11 @@
                            <children>
                               <TableView fx:id="referenceTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="materialsColumn" prefWidth="75.0" text="Материалы" />
-                                  <TableColumn fx:id="suppliersColumn" prefWidth="75.0" text="Поставщики" />
-                                  <TableColumn fx:id="toolsColumn" prefWidth="75.0" text="Инструменты" />
-                                  <TableColumn fx:id="prorabsColumn" prefWidth="75.0" text="Прорабы" />
-                                  <TableColumn fx:id="objectsColumn" prefWidth="75.0" text="Объекты" />
+                                  <TableColumn fx:id="materialsColumn" prefWidth="75.0" text="%col.materials" />
+                                  <TableColumn fx:id="suppliersColumn" prefWidth="75.0" text="%col.suppliers" />
+                                  <TableColumn fx:id="toolsColumn" prefWidth="75.0" text="%col.tools" />
+                                  <TableColumn fx:id="prorabsColumn" prefWidth="75.0" text="%col.prorabs" />
+                                  <TableColumn fx:id="objectsColumn" prefWidth="75.0" text="%col.objects" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -38,17 +38,17 @@
                         </AnchorPane>
                         <HBox alignment="BOTTOM_LEFT">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#onRefreshReferenceClick" text="Обновить">
+                              <Button mnemonicParsing="false" onAction="#onRefreshReferenceClick" text="%button.refresh">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#onSearchReferenceClick" text="Поиск">
+                              <Button mnemonicParsing="false" onAction="#onSearchReferenceClick" text="%button.search">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <TextField fx:id="referenceSearchField" promptText="Фильтр...">
+                              <TextField fx:id="referenceSearchField" promptText="%filter.prompt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -59,7 +59,7 @@
                   </VBox>
             </content>
           </Tab>
-          <Tab text="Склад">
+          <Tab text="%tab.warehouse">
             <content>
                   <VBox>
                      <children>
@@ -67,10 +67,10 @@
                            <children>
                               <TableView fx:id="warehouseTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn fx:id="stockColumn" prefWidth="75.0" text="Остатки" />
-                                    <TableColumn fx:id="receiptColumn" prefWidth="75.0" text="Приход" />
-                                    <TableColumn fx:id="invoiceColumn" prefWidth="75.0" text="Расходная накладная" />
-                                    <TableColumn fx:id="returnColumn" prefWidth="75.0" text="Возврат" />
+                                    <TableColumn fx:id="stockColumn" prefWidth="75.0" text="%col.stock" />
+                                    <TableColumn fx:id="receiptColumn" prefWidth="75.0" text="%col.receipt" />
+                                    <TableColumn fx:id="invoiceColumn" prefWidth="75.0" text="%col.invoice" />
+                                    <TableColumn fx:id="returnColumn" prefWidth="75.0" text="%col.return" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -80,17 +80,17 @@
                         </AnchorPane>
                         <HBox alignment="BOTTOM_LEFT">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#onRefreshWarehouseClick" text="Обновить">
+                              <Button mnemonicParsing="false" onAction="#onRefreshWarehouseClick" text="%button.refresh">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#onSearchWarehouseClick" text="Поиск">
+                              <Button mnemonicParsing="false" onAction="#onSearchWarehouseClick" text="%button.search">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <TextField fx:id="warehouseSearchField" promptText="Фильтр...">
+                              <TextField fx:id="warehouseSearchField" promptText="%filter.prompt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -101,7 +101,7 @@
                   </VBox>
             </content>
           </Tab>
-          <Tab text="Отчёты">
+          <Tab text="%tab.reports">
             <content>
                   <VBox>
                      <children>
@@ -109,8 +109,8 @@
                            <children>
                               <TableView fx:id="reportTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn fx:id="movementColumn" prefWidth="75.0" text="Движение материалов" />
-                                    <TableColumn fx:id="debtorsColumn" prefWidth="75.0" text="Должники по инструментам" />
+                                    <TableColumn fx:id="movementColumn" prefWidth="75.0" text="%col.movement" />
+                                    <TableColumn fx:id="debtorsColumn" prefWidth="75.0" text="%col.debtors" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -120,17 +120,17 @@
                         </AnchorPane>
                         <HBox alignment="BOTTOM_LEFT">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#onRefreshReportClick" text="Обновить">
+                              <Button mnemonicParsing="false" onAction="#onRefreshReportClick" text="%button.refresh">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#onSearchReportClick" text="Поиск">
+                              <Button mnemonicParsing="false" onAction="#onSearchReportClick" text="%button.search">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <TextField fx:id="reportSearchField" promptText="Фильтр...">
+                              <TextField fx:id="reportSearchField" promptText="%filter.prompt">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -147,22 +147,22 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="130.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onPrihodClick" text="Приход">
+            <Button mnemonicParsing="false" onAction="#onPrihodClick" text="%button.receipt">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onGiveMaterialClick" text="Выдать материал">
+            <Button mnemonicParsing="false" onAction="#onGiveMaterialClick" text="%button.giveMaterial">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onGiveToolClick" text="Выдать инструмент">
+            <Button mnemonicParsing="false" onAction="#onGiveToolClick" text="%button.giveTool">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onReturnToolClick" text="Вернуть инструмент">
+            <Button mnemonicParsing="false" onAction="#onReturnToolClick" text="%button.returnTool">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>

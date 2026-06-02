@@ -22,15 +22,15 @@
             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
          </columnConstraints>
          <children>
-            <Label text="Инструмент:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ComboBox fx:id="toolComboBox" maxWidth="1.7976931348623157E308" promptText="Выберите инструмент" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label text="Объект:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <ComboBox fx:id="objectComboBox" maxWidth="1.7976931348623157E308" promptText="Выберите объект" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Кому выдан:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id="issuedToField" maxWidth="1.7976931348623157E308" promptText="ФИО получателя" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Дата выдачи:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label text="%label.tool" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ComboBox fx:id="toolComboBox" maxWidth="1.7976931348623157E308" promptText="%prompt.selectTool" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="%label.object" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <ComboBox fx:id="objectComboBox" maxWidth="1.7976931348623157E308" promptText="%prompt.selectObject" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="%label.issuedTo" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="issuedToField" maxWidth="1.7976931348623157E308" promptText="%prompt.recipientName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="%label.issueDate" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <DatePicker fx:id="issueDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Срок возврата:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label text="%label.returnDate" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <DatePicker fx:id="returnDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
          <rowConstraints>
@@ -44,8 +44,8 @@
       <Separator />
       <HBox alignment="CENTER" spacing="15.0">
          <children>
-            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onCloseClick" text="Закрыть" />
-            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#onSubmitClick" text="Выдать" />
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onCloseClick" text="%button.close" />
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#onSubmitClick" text="%button.issue" />
          </children>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

@@ -22,12 +22,12 @@
             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
          </columnConstraints>
          <children>
-            <Label text="Выдача:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ComboBox fx:id="toolIssueComboBox" maxWidth="1.7976931348623157E308" promptText="Инструмент / кому выдан" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label text="Дата возврата:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label text="%label.issue" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ComboBox fx:id="toolIssueComboBox" maxWidth="1.7976931348623157E308" promptText="%prompt.issueSelect" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="%label.actualReturnDate" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <DatePicker fx:id="actualReturnDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Состояние:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField fx:id="conditionField" maxWidth="1.7976931348623157E308" promptText="Исправен, требует ремонта..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="%label.condition" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="conditionField" maxWidth="1.7976931348623157E308" promptText="%prompt.condition" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
          <rowConstraints>
             <RowConstraints />
@@ -38,8 +38,8 @@
       <Separator />
       <HBox alignment="CENTER" spacing="15.0">
          <children>
-            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onCloseClick" text="Закрыть" />
-            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#onSubmitClick" text="Принять возврат" />
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onCloseClick" text="%button.close" />
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#onSubmitClick" text="%button.acceptReturn" />
          </children>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

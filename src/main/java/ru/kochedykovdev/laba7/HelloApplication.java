@@ -28,6 +28,8 @@ import ru.kochedykovdev.laba7.dao.impl.SupplierDaoImpl;
 import ru.kochedykovdev.laba7.dao.impl.ToolDaoImpl;
 import ru.kochedykovdev.laba7.dao.impl.ToolIssueDaoImpl;
 
+import ru.kochedykovdev.laba7.util.Messages;
+
 import java.io.IOException;
 
 public class HelloApplication extends Application {
@@ -46,7 +48,7 @@ public class HelloApplication extends Application {
         MaterialReturnDao materialReturnDao = new MaterialReturnDaoImpl();
         ToolIssueDao toolIssueDao = new ToolIssueDaoImpl();
 
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"), Messages.bundle);
         loader.setControllerFactory(clazz -> {
             if (clazz == MainController.class) {
                 return new MainController(
@@ -59,7 +61,7 @@ public class HelloApplication extends Application {
         });
 
         Scene scene = new Scene(loader.load(), 800, 600);
-        stage.setTitle("АРМ кладовщика строительной организации");
+        stage.setTitle(Messages.bundle.getString("app.title"));
         stage.setScene(scene);
         stage.show();
     }

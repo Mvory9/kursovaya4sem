@@ -17,6 +17,7 @@ import ru.kochedykovdev.laba7.dao.ToolIssueDao;
 import ru.kochedykovdev.laba7.model.BuildingObject;
 import ru.kochedykovdev.laba7.model.Tool;
 import ru.kochedykovdev.laba7.model.ToolIssue;
+import ru.kochedykovdev.laba7.util.Messages;
 import ru.kochedykovdev.laba7.util.FieldValidation;
 
 import java.sql.SQLException;
@@ -117,7 +118,7 @@ public class GiveToolController {
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Ошибка");
+        alert.setHeaderText(Messages.bundle.getString("error.header"));
         alert.setContentText(message);
         alert.showAndWait();
     }

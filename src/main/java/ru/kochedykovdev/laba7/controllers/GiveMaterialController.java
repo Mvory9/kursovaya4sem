@@ -20,6 +20,7 @@ import ru.kochedykovdev.laba7.model.BuildingObject;
 import ru.kochedykovdev.laba7.model.Invoice;
 import ru.kochedykovdev.laba7.model.InvoiceItem;
 import ru.kochedykovdev.laba7.model.MaterialCard;
+import ru.kochedykovdev.laba7.util.Messages;
 import ru.kochedykovdev.laba7.model.MaterialStock;
 import ru.kochedykovdev.laba7.util.FieldValidation;
 
@@ -170,7 +171,7 @@ public class GiveMaterialController {
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Ошибка");
+        alert.setHeaderText(Messages.bundle.getString("error.header"));
         alert.setContentText(message);
         alert.showAndWait();
     }

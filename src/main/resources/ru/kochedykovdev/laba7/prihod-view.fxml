@@ -22,15 +22,15 @@
             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
          </columnConstraints>
          <children>
-            <Label text="Материал:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ComboBox fx:id="materialComboBox" maxWidth="1.7976931348623157E308" promptText="Выберите материал" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label text="Поставщик:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <ComboBox fx:id="supplierComboBox" maxWidth="1.7976931348623157E308" promptText="Выберите поставщика" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Количество:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label text="%label.material" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <ComboBox fx:id="materialComboBox" maxWidth="1.7976931348623157E308" promptText="%prompt.selectMaterial" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="%label.supplier" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <ComboBox fx:id="supplierComboBox" maxWidth="1.7976931348623157E308" promptText="%prompt.selectSupplier" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="%label.quantity" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <TextField fx:id="quantityField" maxWidth="1.7976931348623157E308" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Цена за единицу:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label text="%label.price" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextField fx:id="priceField" maxWidth="1.7976931348623157E308" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Дата прихода:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label text="%label.receiptDate" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <DatePicker fx:id="receiptDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
          <rowConstraints>
@@ -44,8 +44,8 @@
       <Separator />
       <HBox alignment="CENTER" spacing="15.0">
          <children>
-            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onCloseClick" text="Закрыть" />
-            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#onSubmitClick" text="Провести" />
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onCloseClick" text="%button.close" />
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#onSubmitClick" text="%button.submit" />
          </children>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

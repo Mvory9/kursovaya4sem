@@ -19,6 +19,7 @@ import ru.kochedykovdev.laba7.model.MaterialCard;
 import ru.kochedykovdev.laba7.model.MaterialReceipt;
 import ru.kochedykovdev.laba7.model.MaterialStock;
 import ru.kochedykovdev.laba7.model.Supplier;
+import ru.kochedykovdev.laba7.util.Messages;
 import ru.kochedykovdev.laba7.util.FieldValidation;
 
 import java.math.BigDecimal;
@@ -156,7 +157,7 @@ public class PrihodController {
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText("Ошибка");
+        alert.setHeaderText(Messages.bundle.getString("error.header"));
         alert.setContentText(message);
         alert.showAndWait();
     }
