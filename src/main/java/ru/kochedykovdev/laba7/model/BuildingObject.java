@@ -13,4 +13,9 @@ public class BuildingObject {
     private String name;
     private String address;
     private Long prorabId;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

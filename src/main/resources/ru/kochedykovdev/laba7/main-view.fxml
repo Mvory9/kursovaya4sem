@@ -20,15 +20,15 @@
             <content>
                   <VBox>
                      <children>
-                    <AnchorPane>
+                        <AnchorPane VBox.vgrow="ALWAYS">
                            <children>
-                              <TableView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="referenceTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Материалы" />
-                                  <TableColumn prefWidth="75.0" text="Поставщики" />
-                                    <TableColumn prefWidth="75.0" text="Инструменты" />
-                                    <TableColumn prefWidth="75.0" text="Прорабы" />
-                                    <TableColumn prefWidth="75.0" text="Объекты" />
+                                  <TableColumn fx:id="materialsColumn" prefWidth="75.0" text="Материалы" />
+                                  <TableColumn fx:id="suppliersColumn" prefWidth="75.0" text="Поставщики" />
+                                  <TableColumn fx:id="toolsColumn" prefWidth="75.0" text="Инструменты" />
+                                  <TableColumn fx:id="prorabsColumn" prefWidth="75.0" text="Прорабы" />
+                                  <TableColumn fx:id="objectsColumn" prefWidth="75.0" text="Объекты" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -36,19 +36,19 @@
                               </TableView>
                            </children>
                         </AnchorPane>
-                        <HBox alignment="BOTTOM_LEFT" layoutX="-0.0" layoutY="-0.0">
+                        <HBox alignment="BOTTOM_LEFT">
                            <children>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Обновить">
+                              <Button mnemonicParsing="false" onAction="#onRefreshReferenceClick" text="Обновить">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Поиск">
+                              <Button mnemonicParsing="false" onAction="#onSearchReferenceClick" text="Поиск">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <TextField>
+                              <TextField fx:id="referenceSearchField" promptText="Фильтр...">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -63,14 +63,14 @@
             <content>
                   <VBox>
                      <children>
-                    <AnchorPane>
+                        <AnchorPane VBox.vgrow="ALWAYS">
                            <children>
-                              <TableView prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="warehouseTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn prefWidth="75.0" text="Остатки" />
-                                    <TableColumn prefWidth="75.0" text="Приход" />
-                                    <TableColumn prefWidth="75.0" text="Расходная накладная" />
-                                    <TableColumn prefWidth="75.0" text="Возврат" />
+                                    <TableColumn fx:id="stockColumn" prefWidth="75.0" text="Остатки" />
+                                    <TableColumn fx:id="receiptColumn" prefWidth="75.0" text="Приход" />
+                                    <TableColumn fx:id="invoiceColumn" prefWidth="75.0" text="Расходная накладная" />
+                                    <TableColumn fx:id="returnColumn" prefWidth="75.0" text="Возврат" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -80,17 +80,17 @@
                         </AnchorPane>
                         <HBox alignment="BOTTOM_LEFT">
                            <children>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Обновить">
+                              <Button mnemonicParsing="false" onAction="#onRefreshWarehouseClick" text="Обновить">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Поиск">
+                              <Button mnemonicParsing="false" onAction="#onSearchWarehouseClick" text="Поиск">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <TextField>
+                              <TextField fx:id="warehouseSearchField" promptText="Фильтр...">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -101,16 +101,16 @@
                   </VBox>
             </content>
           </Tab>
-            <Tab text="Отчёты">
-               <content>
+          <Tab text="Отчёты">
+            <content>
                   <VBox>
                      <children>
-                        <AnchorPane>
+                        <AnchorPane VBox.vgrow="ALWAYS">
                            <children>
-                              <TableView prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="reportTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn prefWidth="75.0" text="Движение материалов" />
-                                    <TableColumn prefWidth="75.0" text="Должники по инструментам" />
+                                    <TableColumn fx:id="movementColumn" prefWidth="75.0" text="Движение материалов" />
+                                    <TableColumn fx:id="debtorsColumn" prefWidth="75.0" text="Должники по инструментам" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -120,17 +120,17 @@
                         </AnchorPane>
                         <HBox alignment="BOTTOM_LEFT">
                            <children>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Обновить">
+                              <Button mnemonicParsing="false" onAction="#onRefreshReportClick" text="Обновить">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Поиск">
+                              <Button mnemonicParsing="false" onAction="#onSearchReportClick" text="Поиск">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <TextField>
+                              <TextField fx:id="reportSearchField" promptText="Фильтр...">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -139,30 +139,30 @@
                         </HBox>
                      </children>
                   </VBox>
-               </content>
-            </Tab>
+            </content>
+          </Tab>
         </tabs>
       </TabPane>
    </center>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="130.0" BorderPane.alignment="CENTER">
          <children>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onPrihodClick" text="Приход">
+            <Button mnemonicParsing="false" onAction="#onPrihodClick" text="Приход">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onGiveMaterialClick" text="Выдать материал">
+            <Button mnemonicParsing="false" onAction="#onGiveMaterialClick" text="Выдать материал">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onGiveToolClick" text="Выдать инструмент">
+            <Button mnemonicParsing="false" onAction="#onGiveToolClick" text="Выдать инструмент">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onReturnToolClick" text="Вернуть инструмент">
+            <Button mnemonicParsing="false" onAction="#onReturnToolClick" text="Вернуть инструмент">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>

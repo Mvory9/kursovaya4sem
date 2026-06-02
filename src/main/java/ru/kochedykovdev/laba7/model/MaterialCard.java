@@ -14,4 +14,9 @@ public class MaterialCard {
     private Integer article;
     private String unit;
     private Integer writeOffRate;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

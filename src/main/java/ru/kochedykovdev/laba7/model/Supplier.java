@@ -15,4 +15,9 @@ public class Supplier {
     private String phone;
     private String email;
     private String address;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

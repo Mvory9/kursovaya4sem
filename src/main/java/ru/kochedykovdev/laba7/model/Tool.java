@@ -13,4 +13,9 @@ public class Tool {
     private String name;
     private String inventoryNumber;
     private String condition;
+
+    @Override
+    public String toString() {
+        return name + " (" + inventoryNumber + ")";
+    }
 }

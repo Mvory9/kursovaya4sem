@@ -4,16 +4,61 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.kochedykovdev.laba7.controllers.MainController;
+import ru.kochedykovdev.laba7.dao.BuildingObjectDao;
+import ru.kochedykovdev.laba7.dao.InvoiceDao;
+import ru.kochedykovdev.laba7.dao.InvoiceItemDao;
+import ru.kochedykovdev.laba7.dao.MaterialCardDao;
+import ru.kochedykovdev.laba7.dao.MaterialReceiptDao;
+import ru.kochedykovdev.laba7.dao.MaterialReturnDao;
+import ru.kochedykovdev.laba7.dao.MaterialStockDao;
+import ru.kochedykovdev.laba7.dao.ProrabDao;
+import ru.kochedykovdev.laba7.dao.SupplierDao;
+import ru.kochedykovdev.laba7.dao.ToolDao;
+import ru.kochedykovdev.laba7.dao.ToolIssueDao;
+import ru.kochedykovdev.laba7.dao.impl.BuildingObjectDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.InvoiceDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.InvoiceItemDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.MaterialCardDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.MaterialReceiptDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.MaterialReturnDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.MaterialStockDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.ProrabDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.SupplierDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.ToolDaoImpl;
+import ru.kochedykovdev.laba7.dao.impl.ToolIssueDaoImpl;
 
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+        MaterialCardDao materialCardDao = new MaterialCardDaoImpl();
+        SupplierDao supplierDao = new SupplierDaoImpl();
+        ToolDao toolDao = new ToolDaoImpl();
+        ProrabDao prorabDao = new ProrabDaoImpl();
+        BuildingObjectDao buildingObjectDao = new BuildingObjectDaoImpl();
+        MaterialStockDao materialStockDao = new MaterialStockDaoImpl();
+        MaterialReceiptDao materialReceiptDao = new MaterialReceiptDaoImpl();
+        InvoiceDao invoiceDao = new InvoiceDaoImpl();
+        InvoiceItemDao invoiceItemDao = new InvoiceItemDaoImpl();
+        MaterialReturnDao materialReturnDao = new MaterialReturnDaoImpl();
+        ToolIssueDao toolIssueDao = new ToolIssueDaoImpl();
 
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+        loader.setControllerFactory(clazz -> {
+            if (clazz == MainController.class) {
+                return new MainController(
+                        materialCardDao, supplierDao, toolDao, prorabDao, buildingObjectDao,
+                        materialStockDao, materialReceiptDao, invoiceDao, invoiceItemDao,
+                        materialReturnDao, toolIssueDao
+                );
+            }
+            throw new IllegalStateException("Неизвестный контроллер: " + clazz);
+        });
 
+        Scene scene = new Scene(loader.load(), 800, 600);
         stage.setTitle("АРМ кладовщика строительной организации");
         stage.setScene(scene);
         stage.show();
