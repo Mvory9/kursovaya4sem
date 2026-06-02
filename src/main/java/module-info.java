@@ -7,4 +7,6 @@ module ru.kochedykovdev.laba7 {
 
     opens ru.kochedykovdev.laba7 to javafx.fxml;
     exports ru.kochedykovdev.laba7;
+    exports ru.kochedykovdev.laba7.controllers;
+    opens ru.kochedykovdev.laba7.controllers to javafx.fxml;
 }
