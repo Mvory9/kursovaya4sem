@@ -1,8 +1,19 @@
 package ru.kochedykovdev.laba7.DAO;
 
+/**
+ * Объект строительства - куда выдают материалы и инструменты
+ */
 public class BuildingObjectInterface {
+
+    /** id записи в БД */
     private Long id;
+
+    /** наименование */
     private String name;
+
+    /** адрес */
     private String address;
-    private ProrabInterface prorabInterface;        // FK на Prorab
+
+    /** прораб объекта, FK {@link ProrabInterface} */
+    private ProrabInterface prorabInterface;
 }
