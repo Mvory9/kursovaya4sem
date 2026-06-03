@@ -2,6 +2,7 @@ module ru.kochedykovdev.laba7 {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires org.slf4j;
     requires static lombok;
 
     opens ru.kochedykovdev.laba7 to javafx.fxml;

@@ -34,9 +34,11 @@
     import ru.kochedykovdev.laba7.model.Supplier;
     import ru.kochedykovdev.laba7.model.Tool;
     import ru.kochedykovdev.laba7.model.ToolIssue;
-    import ru.kochedykovdev.laba7.util.Messages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.kochedykovdev.laba7.util.Messages;
 
-    import java.io.IOException;
+import java.io.IOException;
     import java.sql.SQLException;
     import java.util.ArrayList;
     import java.util.HashMap;
@@ -44,9 +46,11 @@
     import java.util.Map;
     import java.util.stream.Collectors;
 
-    public class MainController {
+public class MainController {
 
-        private final MaterialCardDao materialCardDao;
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+
+    private final MaterialCardDao materialCardDao;
         private final SupplierDao supplierDao;
         private final ToolDao toolDao;
         private final ProrabDao prorabDao;
@@ -390,9 +394,10 @@
             return index < list.size() ? list.get(index) : "";
         }
 
-        private void openDialog(String fxml, String titleKey, ActionEvent event, Class<?> controllerClass) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/kochedykovdev/laba7/" + fxml), Messages.bundle);
+    private void openDialog(String fxml, String titleKey, ActionEvent event, Class<?> controllerClass) {
+        logger.info("Открытие окна: {}", titleKey);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/kochedykovdev/laba7/" + fxml), Messages.bundle);
                 loader.setControllerFactory(clazz -> createDialogController(clazz, controllerClass));
 
                 Scene scene = new Scene(loader.load());
@@ -428,9 +433,10 @@
             throw new IllegalStateException("Неизвестный контроллер: " + clazz);
         }
 
-        private void showError(String message) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(Messages.bundle.getString("error.header"));
+    private void showError(String message) {
+        logger.error("{}", message);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(Messages.bundle.getString("error.header"));
             alert.setContentText(message);
             alert.showAndWait();
         }

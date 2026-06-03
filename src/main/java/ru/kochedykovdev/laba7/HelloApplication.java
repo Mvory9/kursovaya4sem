@@ -1,9 +1,12 @@
 package ru.kochedykovdev.laba7;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kochedykovdev.laba7.controllers.MainController;
 import ru.kochedykovdev.laba7.dao.BuildingObjectDao;
 import ru.kochedykovdev.laba7.dao.InvoiceDao;
@@ -27,42 +30,67 @@ import ru.kochedykovdev.laba7.dao.impl.ProrabDaoImpl;
 import ru.kochedykovdev.laba7.dao.impl.SupplierDaoImpl;
 import ru.kochedykovdev.laba7.dao.impl.ToolDaoImpl;
 import ru.kochedykovdev.laba7.dao.impl.ToolIssueDaoImpl;
-
+import ru.kochedykovdev.laba7.util.DBHelper;
 import ru.kochedykovdev.laba7.util.Messages;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Locale;
 
 public class HelloApplication extends Application {
 
+    private static final Logger logger = LoggerFactory.getLogger(HelloApplication.class);
+
     @Override
-    public void start(Stage stage) throws IOException {
-        MaterialCardDao materialCardDao = new MaterialCardDaoImpl();
-        SupplierDao supplierDao = new SupplierDaoImpl();
-        ToolDao toolDao = new ToolDaoImpl();
-        ProrabDao prorabDao = new ProrabDaoImpl();
-        BuildingObjectDao buildingObjectDao = new BuildingObjectDaoImpl();
-        MaterialStockDao materialStockDao = new MaterialStockDaoImpl();
-        MaterialReceiptDao materialReceiptDao = new MaterialReceiptDaoImpl();
-        InvoiceDao invoiceDao = new InvoiceDaoImpl();
-        InvoiceItemDao invoiceItemDao = new InvoiceItemDaoImpl();
-        MaterialReturnDao materialReturnDao = new MaterialReturnDaoImpl();
-        ToolIssueDao toolIssueDao = new ToolIssueDaoImpl();
+    public void start(Stage stage) {
+        logger.info("Приложение запущено");
+        logger.info("Локаль: {}, ресурсы: {}", Locale.getDefault(), Messages.bundle.getLocale());
 
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"), Messages.bundle);
-        loader.setControllerFactory(clazz -> {
-            if (clazz == MainController.class) {
-                return new MainController(
-                        materialCardDao, supplierDao, toolDao, prorabDao, buildingObjectDao,
-                        materialStockDao, materialReceiptDao, invoiceDao, invoiceItemDao,
-                        materialReturnDao, toolIssueDao
-                );
-            }
-            throw new IllegalStateException("Неизвестный контроллер: " + clazz);
-        });
+        try {
+            DBHelper.getConnection();
+        } catch (SQLException e) {
+            logger.error("Ошибка подключения к базе данных", e);
+        }
 
-        Scene scene = new Scene(loader.load(), 800, 600);
-        stage.setTitle(Messages.bundle.getString("app.title"));
-        stage.setScene(scene);
-        stage.show();
+        try {
+            MaterialCardDao materialCardDao = new MaterialCardDaoImpl();
+            SupplierDao supplierDao = new SupplierDaoImpl();
+            ToolDao toolDao = new ToolDaoImpl();
+            ProrabDao prorabDao = new ProrabDaoImpl();
+            BuildingObjectDao buildingObjectDao = new BuildingObjectDaoImpl();
+            MaterialStockDao materialStockDao = new MaterialStockDaoImpl();
+            MaterialReceiptDao materialReceiptDao = new MaterialReceiptDaoImpl();
+            InvoiceDao invoiceDao = new InvoiceDaoImpl();
+            InvoiceItemDao invoiceItemDao = new InvoiceItemDaoImpl();
+            MaterialReturnDao materialReturnDao = new MaterialReturnDaoImpl();
+            ToolIssueDao toolIssueDao = new ToolIssueDaoImpl();
+
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"), Messages.bundle);
+            loader.setControllerFactory(clazz -> {
+                if (clazz == MainController.class) {
+                    return new MainController(
+                            materialCardDao, supplierDao, toolDao, prorabDao, buildingObjectDao,
+                            materialStockDao, materialReceiptDao, invoiceDao, invoiceItemDao,
+                            materialReturnDao, toolIssueDao
+                    );
+                }
+                throw new IllegalStateException("Неизвестный контроллер: " + clazz);
+            });
+
+            Scene scene = new Scene(loader.load(), 800, 600);
+            stage.setTitle(Messages.bundle.getString("app.title"));
+            stage.setScene(scene);
+            stage.show();
+            logger.info("Главное окно открыто");
+        } catch (IOException e) {
+            logger.error("Ошибка загрузки FXML", e);
+            Platform.exit();
+        }
+    }
+
+    @Override
+    public void stop() {
+        DBHelper.closeConnection();
+        logger.info("Приложение завершено");
     }
 }
