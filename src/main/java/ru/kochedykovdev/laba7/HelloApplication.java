@@ -77,7 +77,7 @@ public class HelloApplication extends Application {
                 throw new IllegalStateException("Неизвестный контроллер: " + clazz);
             });
 
-            Scene scene = new Scene(loader.load(), 800, 600);
+            Scene scene = new Scene(loader.load(), 1000, 600);
             stage.setTitle(Messages.bundle.getString("app.title"));
             stage.setScene(scene);
             stage.show();
