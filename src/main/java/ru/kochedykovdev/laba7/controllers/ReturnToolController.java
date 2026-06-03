@@ -88,14 +88,11 @@ public class ReturnToolController {
     private void onSubmitClick(ActionEvent event) {
         try {
             ToolIssue issue = toolIssueComboBox.getValue();
-            issue.setActualReturnDate(actualReturnDatePicker.getValue());
-            toolIssueDao.update(issue);
-
-            Tool tool = toolDao.findById(issue.getToolId())
-                    .orElseThrow(() -> new IllegalStateException("Инструмент не найден"));
-            tool.setCondition(conditionField.getText().trim());
-            toolDao.update(tool);
-
+            toolIssueDao.returnTool(
+                    issue.getId(),
+                    actualReturnDatePicker.getValue(),
+                    conditionField.getText().trim()
+            );
             closeWindow(event);
         } catch (Exception e) {
             showError(e.getMessage());

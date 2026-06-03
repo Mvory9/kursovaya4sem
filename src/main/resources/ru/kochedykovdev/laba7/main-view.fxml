@@ -180,6 +180,14 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Button>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onReturnMaterialClick" text="%button.returnMaterial">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Button>
          </children>
       </VBox>
    </right>

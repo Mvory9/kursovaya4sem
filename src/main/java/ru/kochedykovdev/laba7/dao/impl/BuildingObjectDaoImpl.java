@@ -3,6 +3,7 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.BuildingObjectDao;
 import ru.kochedykovdev.laba7.model.BuildingObject;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,17 +16,13 @@ public class BuildingObjectDaoImpl implements BuildingObjectDao {
 
     @Override
     public void insert(BuildingObject object) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (name, address, prorab_id) VALUES (?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, object.getName());
-            ps.setString(2, object.getAddress());
-            ps.setObject(3, object.getProrabId());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                object.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_insert_building_object",
+                object.getName(),
+                object.getAddress(),
+                object.getProrabId()
+        );
+        object.setId(id);
     }
 
     @Override

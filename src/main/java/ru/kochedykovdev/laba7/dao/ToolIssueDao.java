@@ -2,6 +2,7 @@ package ru.kochedykovdev.laba7.dao;
 
 import ru.kochedykovdev.laba7.model.ToolIssue;
 
+import java.time.LocalDate;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,15 @@ public interface ToolIssueDao {
      * @param issue выдача (не null)
      */
     void insert(ToolIssue issue) throws SQLException;
+
+    /**
+     * Принять возврат инструмента через fn_return_tool.
+     *
+     * @param issueId            идентификатор выдачи
+     * @param actualReturnDate   дата фактического возврата
+     * @param condition          состояние инструмента
+     */
+    void returnTool(long issueId, LocalDate actualReturnDate, String condition) throws SQLException;
 
     /**
      * Найти выдачу по id.

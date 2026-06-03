@@ -3,6 +3,7 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.SupplierDao;
 import ru.kochedykovdev.laba7.model.Supplier;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,19 +16,15 @@ public class SupplierDaoImpl implements SupplierDao {
 
     @Override
     public void insert(Supplier supplier) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (name, contact_person, phone, email, address) VALUES (?, ?, ?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, supplier.getName());
-            ps.setString(2, supplier.getContactPerson());
-            ps.setString(3, supplier.getPhone());
-            ps.setString(4, supplier.getEmail());
-            ps.setString(5, supplier.getAddress());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                supplier.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_insert_supplier",
+                supplier.getName(),
+                supplier.getContactPerson(),
+                supplier.getPhone(),
+                supplier.getEmail(),
+                supplier.getAddress()
+        );
+        supplier.setId(id);
     }
 
     @Override

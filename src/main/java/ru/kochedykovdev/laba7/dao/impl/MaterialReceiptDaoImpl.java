@@ -3,6 +3,7 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.MaterialReceiptDao;
 import ru.kochedykovdev.laba7.model.MaterialReceipt;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,19 +16,15 @@ public class MaterialReceiptDaoImpl implements MaterialReceiptDao {
 
     @Override
     public void insert(MaterialReceipt receipt) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (material_id, supplier_id, quantity, price, receipt_date) VALUES (?, ?, ?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, receipt.getMaterialId());
-            ps.setLong(2, receipt.getSupplierId());
-            ps.setBigDecimal(3, receipt.getQuantity());
-            ps.setBigDecimal(4, receipt.getPrice());
-            ps.setObject(5, receipt.getReceiptDate());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                receipt.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_register_material_receipt",
+                receipt.getMaterialId(),
+                receipt.getSupplierId(),
+                receipt.getQuantity(),
+                receipt.getPrice(),
+                receipt.getReceiptDate()
+        );
+        receipt.setId(id);
     }
 
     @Override

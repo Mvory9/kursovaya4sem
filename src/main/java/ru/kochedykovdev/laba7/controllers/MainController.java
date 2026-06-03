@@ -175,6 +175,11 @@ public class MainController {
     }
 
     @FXML
+    private void onReturnMaterialClick(ActionEvent event) {
+        openDialog("return-material-view.fxml", "dialog.returnMaterial", event, ReturnMaterialController.class);
+    }
+
+    @FXML
     private void onManageReferencesClick(ActionEvent event) {
         openDialog("reference-editor-view.fxml", "dialog.references", event, ReferenceEditorController.class);
     }
@@ -528,10 +533,13 @@ public class MainController {
             throw new IllegalStateException("Неизвестный контроллер: " + clazz);
         }
         if (clazz == PrihodController.class) {
-            return new PrihodController(materialCardDao, supplierDao, materialReceiptDao, materialStockDao);
+            return new PrihodController(materialCardDao, supplierDao, materialReceiptDao);
         }
         if (clazz == GiveMaterialController.class) {
-            return new GiveMaterialController(invoiceDao, invoiceItemDao, buildingObjectDao, materialCardDao, materialStockDao);
+            return new GiveMaterialController(invoiceDao, buildingObjectDao, materialCardDao);
+        }
+        if (clazz == ReturnMaterialController.class) {
+            return new ReturnMaterialController(invoiceDao, materialCardDao, materialReturnDao);
         }
         if (clazz == GiveToolController.class) {
             return new GiveToolController(toolDao, buildingObjectDao, toolIssueDao);

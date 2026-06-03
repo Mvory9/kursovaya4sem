@@ -3,6 +3,7 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.ToolDao;
 import ru.kochedykovdev.laba7.model.Tool;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,17 +16,13 @@ public class ToolDaoImpl implements ToolDao {
 
     @Override
     public void insert(Tool tool) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (name, inventory_number, \"condition\") VALUES (?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, tool.getName());
-            ps.setString(2, tool.getInventoryNumber());
-            ps.setString(3, tool.getCondition());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                tool.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_insert_tool",
+                tool.getName(),
+                tool.getInventoryNumber(),
+                tool.getCondition()
+        );
+        tool.setId(id);
     }
 
     @Override

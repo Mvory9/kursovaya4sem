@@ -2,7 +2,9 @@ package ru.kochedykovdev.laba7.dao.impl;
 
 import ru.kochedykovdev.laba7.dao.InvoiceDao;
 import ru.kochedykovdev.laba7.model.Invoice;
+import ru.kochedykovdev.laba7.model.InvoiceItem;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,6 +14,21 @@ import java.util.Optional;
 public class InvoiceDaoImpl implements InvoiceDao {
 
     private static final String TABLE = DBHelper.SCHEMA + ".invoice";
+
+    @Override
+    public void issueMaterial(Invoice invoice, InvoiceItem item) throws SQLException {
+        long invoiceId = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_issue_material",
+                invoice.getInvoiceNumber(),
+                invoice.getObjectId(),
+                invoice.getIssueDate(),
+                item.getMaterialId(),
+                item.getQuantity(),
+                item.getPriceAtMoment()
+        );
+        invoice.setId(invoiceId);
+        item.setInvoiceId(invoiceId);
+    }
 
     @Override
     public void insert(Invoice invoice) throws SQLException {

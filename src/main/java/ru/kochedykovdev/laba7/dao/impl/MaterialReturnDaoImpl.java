@@ -3,6 +3,7 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.MaterialReturnDao;
 import ru.kochedykovdev.laba7.model.MaterialReturn;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,18 +16,14 @@ public class MaterialReturnDaoImpl implements MaterialReturnDao {
 
     @Override
     public void insert(MaterialReturn materialReturn) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (invoice_id, material_id, quantity, return_date) VALUES (?, ?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, materialReturn.getInvoiceId());
-            ps.setLong(2, materialReturn.getMaterialId());
-            ps.setBigDecimal(3, materialReturn.getQuantity());
-            ps.setObject(4, materialReturn.getReturnDate());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                materialReturn.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_return_material",
+                materialReturn.getInvoiceId(),
+                materialReturn.getMaterialId(),
+                materialReturn.getQuantity(),
+                materialReturn.getReturnDate()
+        );
+        materialReturn.setId(id);
     }
 
     @Override

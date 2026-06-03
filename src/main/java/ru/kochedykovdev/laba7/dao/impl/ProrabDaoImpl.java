@@ -3,6 +3,7 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.ProrabDao;
 import ru.kochedykovdev.laba7.model.Prorab;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,16 +16,12 @@ public class ProrabDaoImpl implements ProrabDao {
 
     @Override
     public void insert(Prorab prorab) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (name, phone) VALUES (?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, prorab.getName());
-            ps.setString(2, prorab.getPhone());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                prorab.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_insert_prorab",
+                prorab.getName(),
+                prorab.getPhone()
+        );
+        prorab.setId(id);
     }
 
     @Override

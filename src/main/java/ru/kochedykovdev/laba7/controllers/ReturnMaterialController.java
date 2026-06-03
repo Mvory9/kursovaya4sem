@@ -11,70 +11,77 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ru.kochedykovdev.laba7.dao.InvoiceDao;
 import ru.kochedykovdev.laba7.dao.MaterialCardDao;
-import ru.kochedykovdev.laba7.dao.MaterialReceiptDao;
-import ru.kochedykovdev.laba7.dao.SupplierDao;
+import ru.kochedykovdev.laba7.dao.MaterialReturnDao;
+import ru.kochedykovdev.laba7.model.Invoice;
 import ru.kochedykovdev.laba7.model.MaterialCard;
-import ru.kochedykovdev.laba7.model.MaterialReceipt;
-import ru.kochedykovdev.laba7.model.Supplier;
+import ru.kochedykovdev.laba7.model.MaterialReturn;
 import ru.kochedykovdev.laba7.util.FieldValidation;
 import ru.kochedykovdev.laba7.util.Messages;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
-public class PrihodController {
+public class ReturnMaterialController {
 
+    private final InvoiceDao invoiceDao;
     private final MaterialCardDao materialCardDao;
-    private final SupplierDao supplierDao;
-    private final MaterialReceiptDao materialReceiptDao;
+    private final MaterialReturnDao materialReturnDao;
 
+    @FXML
+    private ComboBox<Invoice> invoiceComboBox;
     @FXML
     private ComboBox<MaterialCard> materialComboBox;
     @FXML
-    private ComboBox<Supplier> supplierComboBox;
-    @FXML
     private TextField quantityField;
     @FXML
-    private TextField priceField;
-    @FXML
-    private DatePicker receiptDatePicker;
+    private DatePicker returnDatePicker;
     @FXML
     private Button submitButton;
 
-    public PrihodController(MaterialCardDao materialCardDao,
-                            SupplierDao supplierDao,
-                            MaterialReceiptDao materialReceiptDao) {
+    public ReturnMaterialController(InvoiceDao invoiceDao,
+                                    MaterialCardDao materialCardDao,
+                                    MaterialReturnDao materialReturnDao) {
+        this.invoiceDao = invoiceDao;
         this.materialCardDao = materialCardDao;
-        this.supplierDao = supplierDao;
-        this.materialReceiptDao = materialReceiptDao;
+        this.materialReturnDao = materialReturnDao;
     }
 
     @FXML
     private void initialize() {
         try {
+            setupCombo(invoiceComboBox);
             setupCombo(materialComboBox);
-            setupCombo(supplierComboBox);
+            invoiceComboBox.getItems().setAll(invoiceDao.findAll());
             materialComboBox.getItems().setAll(materialCardDao.findAll());
-            supplierComboBox.getItems().setAll(supplierDao.findAll());
-            receiptDatePicker.setValue(java.time.LocalDate.now());
+            returnDatePicker.setValue(java.time.LocalDate.now());
+
+            invoiceComboBox.setButtonCell(new ListCell<>() {
+                @Override
+                protected void updateItem(Invoice item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : formatInvoice(item));
+                }
+            });
+            invoiceComboBox.setCellFactory(list -> new ListCell<>() {
+                @Override
+                protected void updateItem(Invoice item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? null : formatInvoice(item));
+                }
+            });
 
             FieldValidation.onlyDecimal(quantityField);
-            FieldValidation.onlyDecimal(priceField);
-
             FieldValidation.bindSubmit(submitButton, Bindings.createBooleanBinding(
-                    () -> materialComboBox.getValue() != null
-                            && supplierComboBox.getValue() != null
-                            && !quantityField.getText().isBlank()
-                            && !priceField.getText().isBlank()
-                            && receiptDatePicker.getValue() != null
-                            && isPositive(quantityField.getText())
-                            && isPositive(priceField.getText()),
+                    () -> invoiceComboBox.getValue() != null
+                            && materialComboBox.getValue() != null
+                            && returnDatePicker.getValue() != null
+                            && isPositive(quantityField.getText()),
+                    invoiceComboBox.valueProperty(),
                     materialComboBox.valueProperty(),
-                    supplierComboBox.valueProperty(),
-                    quantityField.textProperty(),
-                    priceField.textProperty(),
-                    receiptDatePicker.valueProperty()
+                    returnDatePicker.valueProperty(),
+                    quantityField.textProperty()
             ));
         } catch (SQLException e) {
             showError(e.getMessage());
@@ -89,22 +96,22 @@ public class PrihodController {
     @FXML
     private void onSubmitClick(ActionEvent event) {
         try {
-            MaterialCard material = materialComboBox.getValue();
-            BigDecimal qty = new BigDecimal(quantityField.getText().trim());
-
-            MaterialReceipt receipt = new MaterialReceipt(
+            MaterialReturn materialReturn = new MaterialReturn(
                     null,
-                    material.getId(),
-                    supplierComboBox.getValue().getId(),
-                    qty,
-                    new BigDecimal(priceField.getText().trim()),
-                    receiptDatePicker.getValue()
+                    invoiceComboBox.getValue().getId(),
+                    materialComboBox.getValue().getId(),
+                    new BigDecimal(quantityField.getText().trim()),
+                    returnDatePicker.getValue()
             );
-            materialReceiptDao.insert(receipt);
+            materialReturnDao.insert(materialReturn);
             closeWindow(event);
         } catch (Exception e) {
             showError(e.getMessage());
         }
+    }
+
+    private static String formatInvoice(Invoice invoice) {
+        return invoice.getInvoiceNumber() + " (" + invoice.getIssueDate() + ")";
     }
 
     private static boolean isPositive(String text) {

@@ -3,6 +3,7 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.MaterialCardDao;
 import ru.kochedykovdev.laba7.model.MaterialCard;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,18 +16,14 @@ public class MaterialCardDaoImpl implements MaterialCardDao {
 
     @Override
     public void insert(MaterialCard card) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (name, article, unit, write_off_rate) VALUES (?, ?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, card.getName());
-            ps.setObject(2, card.getArticle());
-            ps.setString(3, card.getUnit());
-            ps.setObject(4, card.getWriteOffRate());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                card.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_insert_material_card",
+                card.getName(),
+                card.getArticle(),
+                card.getUnit(),
+                card.getWriteOffRate()
+        );
+        card.setId(id);
     }
 
     @Override

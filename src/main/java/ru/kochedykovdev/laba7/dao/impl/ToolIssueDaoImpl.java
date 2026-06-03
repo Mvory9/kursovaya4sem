@@ -3,6 +3,9 @@ package ru.kochedykovdev.laba7.dao.impl;
 import ru.kochedykovdev.laba7.dao.ToolIssueDao;
 import ru.kochedykovdev.laba7.model.ToolIssue;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.SqlProcedureHelper;
+
+import java.time.LocalDate;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,20 +18,20 @@ public class ToolIssueDaoImpl implements ToolIssueDao {
 
     @Override
     public void insert(ToolIssue issue) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " (tool_id, object_id, issued_to, issue_date, return_date, actual_return_date) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, issue.getToolId());
-            ps.setLong(2, issue.getObjectId());
-            ps.setString(3, issue.getIssuedTo());
-            ps.setObject(4, issue.getIssueDate());
-            ps.setObject(5, issue.getReturnDate());
-            ps.setObject(6, issue.getActualReturnDate());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                issue.setId(rs.getLong("id"));
-            }
-        }
+        long id = SqlProcedureHelper.callFunctionReturningLong(
+                "fn_issue_tool",
+                issue.getToolId(),
+                issue.getObjectId(),
+                issue.getIssuedTo(),
+                issue.getIssueDate(),
+                issue.getReturnDate()
+        );
+        issue.setId(id);
+    }
+
+    @Override
+    public void returnTool(long issueId, LocalDate actualReturnDate, String condition) throws SQLException {
+        SqlProcedureHelper.callFunctionVoid("fn_return_tool", issueId, actualReturnDate, condition);
     }
 
     @Override

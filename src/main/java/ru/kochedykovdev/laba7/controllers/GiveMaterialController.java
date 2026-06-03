@@ -13,29 +13,22 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.kochedykovdev.laba7.dao.BuildingObjectDao;
 import ru.kochedykovdev.laba7.dao.InvoiceDao;
-import ru.kochedykovdev.laba7.dao.InvoiceItemDao;
 import ru.kochedykovdev.laba7.dao.MaterialCardDao;
-import ru.kochedykovdev.laba7.dao.MaterialStockDao;
 import ru.kochedykovdev.laba7.model.BuildingObject;
 import ru.kochedykovdev.laba7.model.Invoice;
 import ru.kochedykovdev.laba7.model.InvoiceItem;
 import ru.kochedykovdev.laba7.model.MaterialCard;
-import ru.kochedykovdev.laba7.util.Messages;
-import ru.kochedykovdev.laba7.model.MaterialStock;
 import ru.kochedykovdev.laba7.util.FieldValidation;
+import ru.kochedykovdev.laba7.util.Messages;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class GiveMaterialController {
 
     private final InvoiceDao invoiceDao;
-    private final InvoiceItemDao invoiceItemDao;
     private final BuildingObjectDao buildingObjectDao;
     private final MaterialCardDao materialCardDao;
-    private final MaterialStockDao materialStockDao;
 
     @FXML
     private TextField invoiceNumberField;
@@ -53,15 +46,11 @@ public class GiveMaterialController {
     private Button submitButton;
 
     public GiveMaterialController(InvoiceDao invoiceDao,
-                                  InvoiceItemDao invoiceItemDao,
                                   BuildingObjectDao buildingObjectDao,
-                                  MaterialCardDao materialCardDao,
-                                  MaterialStockDao materialStockDao) {
+                                  MaterialCardDao materialCardDao) {
         this.invoiceDao = invoiceDao;
-        this.invoiceItemDao = invoiceItemDao;
         this.buildingObjectDao = buildingObjectDao;
         this.materialCardDao = materialCardDao;
-        this.materialStockDao = materialStockDao;
     }
 
     @FXML
@@ -106,44 +95,25 @@ public class GiveMaterialController {
             MaterialCard material = materialComboBox.getValue();
             BigDecimal qty = new BigDecimal(quantityField.getText().trim());
 
-            MaterialStock stock = findStock(material.getId())
-                    .orElseThrow(() -> new IllegalStateException("Материала нет на складе"));
-
-            if (stock.getQuantity().compareTo(qty) < 0) {
-                throw new IllegalStateException("Недостаточно материала на складе");
-            }
-
             Invoice invoice = new Invoice(
                     null,
                     invoiceNumberField.getText().trim(),
                     objectComboBox.getValue().getId(),
                     issueDatePicker.getValue()
             );
-            invoiceDao.insert(invoice);
-
             InvoiceItem item = new InvoiceItem(
                     null,
-                    invoice.getId(),
+                    null,
                     material.getId(),
                     qty,
                     new BigDecimal(priceField.getText().trim())
             );
-            invoiceItemDao.insert(item);
-
-            stock.setQuantity(stock.getQuantity().subtract(qty));
-            stock.setLastUpdated(LocalDateTime.now());
-            materialStockDao.update(stock);
+            invoiceDao.issueMaterial(invoice, item);
 
             closeWindow(event);
         } catch (Exception e) {
             showError(e.getMessage());
         }
-    }
-
-    private Optional<MaterialStock> findStock(Long materialId) throws SQLException {
-        return materialStockDao.findAll().stream()
-                .filter(s -> materialId.equals(s.getMaterialId()))
-                .findFirst();
     }
 
     private static boolean isPositive(String text) {

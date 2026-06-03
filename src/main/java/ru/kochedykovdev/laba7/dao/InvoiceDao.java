@@ -1,6 +1,7 @@
 package ru.kochedykovdev.laba7.dao;
 
 import ru.kochedykovdev.laba7.model.Invoice;
+import ru.kochedykovdev.laba7.model.InvoiceItem;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,6 +18,14 @@ public interface InvoiceDao {
      * @param invoice накладная (не null)
      */
     void insert(Invoice invoice) throws SQLException;
+
+    /**
+     * Оформить выдачу материала (накладная, позиция, списание остатка) через fn_issue_material.
+     *
+     * @param invoice заголовок накладной (id заполняется после вызова)
+     * @param item    позиция накладной (invoiceId заполняется после вызова)
+     */
+    void issueMaterial(Invoice invoice, InvoiceItem item) throws SQLException;
 
     /**
      * Найти накладную по id.

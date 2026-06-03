@@ -12,6 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.12.1</junit.version>
+        <javafx.version>21.0.6</javafx.version>
+        <testfx.version>4.0.18</testfx.version>
     </properties>
 
     <dependencies>
@@ -62,6 +64,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit5</artifactId>
+            <version>${testfx.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -80,6 +89,20 @@
                             <version>1.18.46</version>
                         </path>
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <argLine>
+                        --add-opens ru.kochedykovdev.laba7/ru.kochedykovdev.laba7=ALL-UNNAMED
+                        --add-opens ru.kochedykovdev.laba7/ru.kochedykovdev.laba7.controllers=ALL-UNNAMED
+                        --add-opens ru.kochedykovdev.laba7/ru.kochedykovdev.laba7.util=ALL-UNNAMED
+                        --add-opens ru.kochedykovdev.laba7/ru.kochedykovdev.laba7.dao=ALL-UNNAMED
+                        --add-opens ru.kochedykovdev.laba7/ru.kochedykovdev.laba7.dao.impl=ALL-UNNAMED
+                    </argLine>
                 </configuration>
             </plugin>
             <plugin>
