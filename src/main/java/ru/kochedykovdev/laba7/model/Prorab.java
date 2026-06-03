@@ -12,4 +12,9 @@ public class Prorab {
     private Long id;
     private String name;
     private String phone;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
