@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +32,13 @@ import ru.kochedykovdev.laba7.dao.impl.SupplierDaoImpl;
 import ru.kochedykovdev.laba7.dao.impl.ToolDaoImpl;
 import ru.kochedykovdev.laba7.dao.impl.ToolIssueDaoImpl;
 import ru.kochedykovdev.laba7.util.DBHelper;
+import ru.kochedykovdev.laba7.util.LoginDialog;
 import ru.kochedykovdev.laba7.util.Messages;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
+import java.util.Optional;
 
 public class HelloApplication extends Application {
 
@@ -46,10 +49,30 @@ public class HelloApplication extends Application {
         logger.info("Приложение запущено");
         logger.info("Локаль: {}, ресурсы: {}", Locale.getDefault(), Messages.bundle.getLocale());
 
-        try {
-            DBHelper.getConnection();
-        } catch (SQLException e) {
-            logger.error("Ошибка подключения к базе данных", e);
+        LoginDialog loginDialog = new LoginDialog();
+        while (true) {
+            Optional<LoginDialog.LoginResult> result = loginDialog.showAndWait();
+            if (result.isEmpty()) {
+                logger.info("Пользователь отменил вход, выход");
+                Platform.exit();
+                return;
+            }
+
+            String username = result.get().getUsername();
+            String password = result.get().getPassword();
+            try {
+                DBHelper.initConnection(username, password);
+                logger.info("Успешное подключение для {}", username);
+                break;
+            } catch (SQLException ex) {
+                logger.error("Ошибка подключения для {}: {}", username, ex.getMessage());
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(Messages.bundle.getString("login.error.connectionTitle"));
+                alert.setHeaderText(Messages.bundle.getString("login.error.connectionHeader"));
+                alert.setContentText(Messages.bundle.getString("login.error.connectionMessage")
+                        + "\n\n" + ex.getMessage());
+                alert.showAndWait();
+            }
         }
 
         try {
