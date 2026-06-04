@@ -34,7 +34,6 @@ public class DBHelper {
             dbUrlBase = prop.getProperty("db.url");
             dbName = prop.getProperty("db.name");
             SCHEMA = prop.getProperty("db.schema");
-            logger.debug("Загружены настройки подключения (url, name, schema)");
         } catch (IOException ex) {
             logger.error("Ошибка загрузки config.properties", ex);
             throw new ExceptionInInitializerError(ex);
@@ -57,19 +56,20 @@ public class DBHelper {
         return connection;
     }
 
+    public static void logQuery(String sql) {
+        logger.info("SQL: {}", sql);
+    }
+
     private static void connect(boolean logConnect) throws SQLException {
         if (connection != null && !connection.isClosed()) {
             closeConnection();
         }
         String fullUrl = dbUrlBase + dbName;
         if (logConnect) {
-            logger.info("Подключение к {} пользователем {}", fullUrl, storedUser);
-        } else {
-            logger.debug("Повторное подключение к {} пользователем {}", fullUrl, storedUser);
+            logger.info("Подключение к {} пользователем {}, схема {}", fullUrl, storedUser, SCHEMA);
         }
         connection = DriverManager.getConnection(fullUrl, storedUser, storedPassword);
         connection.setSchema(SCHEMA);
-        logger.info("Соединение установлено, схема: {}", SCHEMA);
     }
 
     public static void closeConnection() {

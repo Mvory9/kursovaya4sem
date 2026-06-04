@@ -28,8 +28,9 @@ public class ToolDaoImpl implements ToolDao {
     @Override
     public Optional<Tool> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -43,8 +44,9 @@ public class ToolDaoImpl implements ToolDao {
     public List<Tool> findAll() throws SQLException {
         String sql = "SELECT * FROM " + TABLE;
         List<Tool> list = new ArrayList<>();
-        try (Connection conn = DBHelper.getConnection();
-             Statement st = conn.createStatement();
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(mapRow(rs));
@@ -56,8 +58,9 @@ public class ToolDaoImpl implements ToolDao {
     @Override
     public void update(Tool tool) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET name=?, inventory_number=?, \"condition\"=? WHERE id=?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, tool.getName());
             ps.setString(2, tool.getInventoryNumber());
             ps.setString(3, tool.getCondition());
@@ -69,8 +72,9 @@ public class ToolDaoImpl implements ToolDao {
     @Override
     public void deleteById(Long id) throws SQLException {
         String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }

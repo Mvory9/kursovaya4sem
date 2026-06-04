@@ -29,8 +29,9 @@ public class MaterialReturnDaoImpl implements MaterialReturnDao {
     @Override
     public Optional<MaterialReturn> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -44,8 +45,9 @@ public class MaterialReturnDaoImpl implements MaterialReturnDao {
     public List<MaterialReturn> findAll() throws SQLException {
         String sql = "SELECT * FROM " + TABLE;
         List<MaterialReturn> list = new ArrayList<>();
-        try (Connection conn = DBHelper.getConnection();
-             Statement st = conn.createStatement();
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(mapRow(rs));
@@ -57,8 +59,9 @@ public class MaterialReturnDaoImpl implements MaterialReturnDao {
     @Override
     public void update(MaterialReturn materialReturn) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET invoice_id=?, material_id=?, quantity=?, return_date=? WHERE id=?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, materialReturn.getInvoiceId());
             ps.setLong(2, materialReturn.getMaterialId());
             ps.setBigDecimal(3, materialReturn.getQuantity());
@@ -71,8 +74,9 @@ public class MaterialReturnDaoImpl implements MaterialReturnDao {
     @Override
     public void deleteById(Long id) throws SQLException {
         String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }

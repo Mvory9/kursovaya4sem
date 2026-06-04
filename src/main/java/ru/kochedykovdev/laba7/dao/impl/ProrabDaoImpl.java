@@ -27,8 +27,9 @@ public class ProrabDaoImpl implements ProrabDao {
     @Override
     public Optional<Prorab> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -42,8 +43,9 @@ public class ProrabDaoImpl implements ProrabDao {
     public List<Prorab> findAll() throws SQLException {
         String sql = "SELECT * FROM " + TABLE;
         List<Prorab> list = new ArrayList<>();
-        try (Connection conn = DBHelper.getConnection();
-             Statement st = conn.createStatement();
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(mapRow(rs));
@@ -55,8 +57,9 @@ public class ProrabDaoImpl implements ProrabDao {
     @Override
     public void update(Prorab prorab) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET name=?, phone=? WHERE id=?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, prorab.getName());
             ps.setString(2, prorab.getPhone());
             ps.setLong(3, prorab.getId());
@@ -67,8 +70,9 @@ public class ProrabDaoImpl implements ProrabDao {
     @Override
     public void deleteById(Long id) throws SQLException {
         String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }

@@ -37,8 +37,9 @@ public class ToolIssueDaoImpl implements ToolIssueDao {
     @Override
     public Optional<ToolIssue> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -52,8 +53,9 @@ public class ToolIssueDaoImpl implements ToolIssueDao {
     public List<ToolIssue> findAll() throws SQLException {
         String sql = "SELECT * FROM " + TABLE;
         List<ToolIssue> list = new ArrayList<>();
-        try (Connection conn = DBHelper.getConnection();
-             Statement st = conn.createStatement();
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(mapRow(rs));
@@ -65,8 +67,9 @@ public class ToolIssueDaoImpl implements ToolIssueDao {
     @Override
     public void update(ToolIssue issue) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET tool_id=?, object_id=?, issued_to=?, issue_date=?, return_date=?, actual_return_date=? WHERE id=?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, issue.getToolId());
             ps.setLong(2, issue.getObjectId());
             ps.setString(3, issue.getIssuedTo());
@@ -81,8 +84,9 @@ public class ToolIssueDaoImpl implements ToolIssueDao {
     @Override
     public void deleteById(Long id) throws SQLException {
         String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }

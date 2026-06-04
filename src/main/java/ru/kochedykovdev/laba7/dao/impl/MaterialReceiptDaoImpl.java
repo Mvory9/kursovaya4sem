@@ -30,8 +30,9 @@ public class MaterialReceiptDaoImpl implements MaterialReceiptDao {
     @Override
     public Optional<MaterialReceipt> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -45,8 +46,9 @@ public class MaterialReceiptDaoImpl implements MaterialReceiptDao {
     public List<MaterialReceipt> findAll() throws SQLException {
         String sql = "SELECT * FROM " + TABLE;
         List<MaterialReceipt> list = new ArrayList<>();
-        try (Connection conn = DBHelper.getConnection();
-             Statement st = conn.createStatement();
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(mapRow(rs));
@@ -58,8 +60,9 @@ public class MaterialReceiptDaoImpl implements MaterialReceiptDao {
     @Override
     public void update(MaterialReceipt receipt) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET material_id=?, supplier_id=?, quantity=?, price=?, receipt_date=? WHERE id=?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, receipt.getMaterialId());
             ps.setLong(2, receipt.getSupplierId());
             ps.setBigDecimal(3, receipt.getQuantity());
@@ -73,8 +76,9 @@ public class MaterialReceiptDaoImpl implements MaterialReceiptDao {
     @Override
     public void deleteById(Long id) throws SQLException {
         String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }

@@ -39,6 +39,7 @@ import ru.kochedykovdev.laba7.model.Supplier;
 import ru.kochedykovdev.laba7.model.Tool;
 import ru.kochedykovdev.laba7.model.ToolIssue;
 import ru.kochedykovdev.laba7.util.Messages;
+import ru.kochedykovdev.laba7.util.UiAlerts;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -201,7 +202,7 @@ public class MainController {
             }
             applyFilter(referenceTableView, referenceRows, referenceSearchField);
         } catch (SQLException e) {
-            showError(e.getMessage());
+            UiAlerts.showSqlError(logger, e);
         }
     }
 
@@ -216,7 +217,7 @@ public class MainController {
             }
             applyFilter(warehouseTableView, warehouseRows, warehouseSearchField);
         } catch (SQLException e) {
-            showError(e.getMessage());
+            UiAlerts.showSqlError(logger, e);
         }
     }
 
@@ -230,7 +231,7 @@ public class MainController {
             }
             applyFilter(reportTableView, reportRows, reportSearchField);
         } catch (SQLException e) {
-            showError(e.getMessage());
+            UiAlerts.showSqlError(logger, e);
         }
     }
 

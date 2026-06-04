@@ -12,6 +12,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kochedykovdev.laba7.dao.BuildingObjectDao;
 import ru.kochedykovdev.laba7.dao.MaterialCardDao;
 import ru.kochedykovdev.laba7.dao.ProrabDao;
@@ -24,10 +26,13 @@ import ru.kochedykovdev.laba7.model.Supplier;
 import ru.kochedykovdev.laba7.model.Tool;
 import ru.kochedykovdev.laba7.util.FieldValidation;
 import ru.kochedykovdev.laba7.util.Messages;
+import ru.kochedykovdev.laba7.util.UiAlerts;
 
 import java.sql.SQLException;
 
 public class ReferenceEditorController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ReferenceEditorController.class);
 
     private final MaterialCardDao materialCardDao;
     private final SupplierDao supplierDao;
@@ -154,6 +159,8 @@ public class ReferenceEditorController {
             materialCardDao.insert(card);
             clearMaterialForm();
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -173,6 +180,8 @@ public class ReferenceEditorController {
             supplierDao.insert(supplier);
             clearSupplierForm();
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -190,6 +199,8 @@ public class ReferenceEditorController {
             clearProrabForm();
             reloadProrabs();
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -208,6 +219,8 @@ public class ReferenceEditorController {
             buildingObjectDao.insert(object);
             clearObjectForm();
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -225,6 +238,8 @@ public class ReferenceEditorController {
             toolDao.insert(tool);
             clearToolForm();
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -234,7 +249,7 @@ public class ReferenceEditorController {
         try {
             objectProrabComboBox.getItems().setAll(prorabDao.findAll());
         } catch (SQLException e) {
-            showError(e.getMessage());
+            UiAlerts.showSqlError(logger, e);
         }
     }
 

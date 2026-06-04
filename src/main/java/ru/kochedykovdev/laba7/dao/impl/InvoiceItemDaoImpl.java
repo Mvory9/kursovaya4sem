@@ -16,8 +16,9 @@ public class InvoiceItemDaoImpl implements InvoiceItemDao {
     @Override
     public void insert(InvoiceItem item) throws SQLException {
         String sql = "INSERT INTO " + TABLE + " (invoice_id, material_id, quantity, price_at_moment) VALUES (?, ?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, item.getInvoiceId());
             ps.setLong(2, item.getMaterialId());
             ps.setBigDecimal(3, item.getQuantity());
@@ -32,8 +33,9 @@ public class InvoiceItemDaoImpl implements InvoiceItemDao {
     @Override
     public Optional<InvoiceItem> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -47,8 +49,9 @@ public class InvoiceItemDaoImpl implements InvoiceItemDao {
     public List<InvoiceItem> findAll() throws SQLException {
         String sql = "SELECT * FROM " + TABLE;
         List<InvoiceItem> list = new ArrayList<>();
-        try (Connection conn = DBHelper.getConnection();
-             Statement st = conn.createStatement();
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(mapRow(rs));
@@ -60,8 +63,9 @@ public class InvoiceItemDaoImpl implements InvoiceItemDao {
     @Override
     public void update(InvoiceItem item) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET invoice_id=?, material_id=?, quantity=?, price_at_moment=? WHERE id=?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, item.getInvoiceId());
             ps.setLong(2, item.getMaterialId());
             ps.setBigDecimal(3, item.getQuantity());
@@ -74,8 +78,9 @@ public class InvoiceItemDaoImpl implements InvoiceItemDao {
     @Override
     public void deleteById(Long id) throws SQLException {
         String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }

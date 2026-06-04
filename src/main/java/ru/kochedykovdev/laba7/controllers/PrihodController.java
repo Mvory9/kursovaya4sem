@@ -11,6 +11,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kochedykovdev.laba7.dao.MaterialCardDao;
 import ru.kochedykovdev.laba7.dao.MaterialReceiptDao;
 import ru.kochedykovdev.laba7.dao.SupplierDao;
@@ -19,11 +21,14 @@ import ru.kochedykovdev.laba7.model.MaterialReceipt;
 import ru.kochedykovdev.laba7.model.Supplier;
 import ru.kochedykovdev.laba7.util.FieldValidation;
 import ru.kochedykovdev.laba7.util.Messages;
+import ru.kochedykovdev.laba7.util.UiAlerts;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
 public class PrihodController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PrihodController.class);
 
     private final MaterialCardDao materialCardDao;
     private final SupplierDao supplierDao;
@@ -77,7 +82,7 @@ public class PrihodController {
                     receiptDatePicker.valueProperty()
             ));
         } catch (SQLException e) {
-            showError(e.getMessage());
+            UiAlerts.showSqlError(logger, e);
         }
     }
 
@@ -102,6 +107,8 @@ public class PrihodController {
             );
             materialReceiptDao.insert(receipt);
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }

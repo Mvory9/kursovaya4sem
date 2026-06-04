@@ -11,6 +11,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kochedykovdev.laba7.dao.InvoiceDao;
 import ru.kochedykovdev.laba7.dao.MaterialCardDao;
 import ru.kochedykovdev.laba7.dao.MaterialReturnDao;
@@ -19,11 +21,14 @@ import ru.kochedykovdev.laba7.model.MaterialCard;
 import ru.kochedykovdev.laba7.model.MaterialReturn;
 import ru.kochedykovdev.laba7.util.FieldValidation;
 import ru.kochedykovdev.laba7.util.Messages;
+import ru.kochedykovdev.laba7.util.UiAlerts;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
 public class ReturnMaterialController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ReturnMaterialController.class);
 
     private final InvoiceDao invoiceDao;
     private final MaterialCardDao materialCardDao;
@@ -84,7 +89,7 @@ public class ReturnMaterialController {
                     quantityField.textProperty()
             ));
         } catch (SQLException e) {
-            showError(e.getMessage());
+            UiAlerts.showSqlError(logger, e);
         }
     }
 
@@ -105,6 +110,8 @@ public class ReturnMaterialController {
             );
             materialReturnDao.insert(materialReturn);
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }

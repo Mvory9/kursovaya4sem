@@ -16,8 +16,9 @@ public class MaterialStockDaoImpl implements MaterialStockDao {
     @Override
     public void insert(MaterialStock stock) throws SQLException {
         String sql = "INSERT INTO " + TABLE + " (material_id, quantity, last_updated) VALUES (?, ?, ?) RETURNING id";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, stock.getMaterialId());
             ps.setBigDecimal(2, stock.getQuantity());
             ps.setObject(3, stock.getLastUpdated());
@@ -31,8 +32,9 @@ public class MaterialStockDaoImpl implements MaterialStockDao {
     @Override
     public Optional<MaterialStock> findById(Long id) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -46,8 +48,9 @@ public class MaterialStockDaoImpl implements MaterialStockDao {
     public List<MaterialStock> findAll() throws SQLException {
         String sql = "SELECT * FROM " + TABLE;
         List<MaterialStock> list = new ArrayList<>();
-        try (Connection conn = DBHelper.getConnection();
-             Statement st = conn.createStatement();
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
                 list.add(mapRow(rs));
@@ -59,8 +62,9 @@ public class MaterialStockDaoImpl implements MaterialStockDao {
     @Override
     public void update(MaterialStock stock) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET material_id=?, quantity=?, last_updated=? WHERE id=?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, stock.getMaterialId());
             ps.setBigDecimal(2, stock.getQuantity());
             ps.setObject(3, stock.getLastUpdated());
@@ -72,8 +76,9 @@ public class MaterialStockDaoImpl implements MaterialStockDao {
     @Override
     public void deleteById(Long id) throws SQLException {
         String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
-        try (Connection conn = DBHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        DBHelper.logQuery(sql);
+        Connection conn = DBHelper.getConnection();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
             ps.executeUpdate();
         }

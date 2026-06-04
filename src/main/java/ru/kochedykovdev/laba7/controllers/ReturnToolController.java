@@ -11,18 +11,23 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kochedykovdev.laba7.dao.ToolDao;
 import ru.kochedykovdev.laba7.dao.ToolIssueDao;
 import ru.kochedykovdev.laba7.model.Tool;
 import ru.kochedykovdev.laba7.model.ToolIssue;
 import ru.kochedykovdev.laba7.util.Messages;
 import ru.kochedykovdev.laba7.util.FieldValidation;
+import ru.kochedykovdev.laba7.util.UiAlerts;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ReturnToolController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ReturnToolController.class);
 
     private final ToolIssueDao toolIssueDao;
     private final ToolDao toolDao;
@@ -75,7 +80,7 @@ public class ReturnToolController {
                     conditionField.textProperty()
             ));
         } catch (SQLException e) {
-            showError(e.getMessage());
+            UiAlerts.showSqlError(logger, e);
         }
     }
 
@@ -94,6 +99,8 @@ public class ReturnToolController {
                     conditionField.getText().trim()
             );
             closeWindow(event);
+        } catch (SQLException e) {
+            UiAlerts.showSqlError(logger, e);
         } catch (Exception e) {
             showError(e.getMessage());
         }
