@@ -136,3 +136,24 @@ INSERT INTO kursovaya4sem.material_receipt (material_id, supplier_id, quantity, 
 INSERT INTO kursovaya4sem.tool_issue (tool_id, object_id, issued_to, issue_date, return_date) VALUES
     (1, 1, 'Смирнов О.Л.', '2025-10-01', '2025-10-15'),
     (2, 2, 'Кузнецов Д.А.', '2025-10-10', '2025-10-25');
+
+-- Примеры накладных (выдача материалов на объекты)
+INSERT INTO kursovaya4sem.invoice (invoice_number, object_id, issue_date) VALUES
+    ('НК-001', 1, '2025-10-05'),
+    ('НК-002', 1, '2025-10-12'),
+    ('НК-003', 2, '2025-10-15');
+
+-- Что выдали по каждой накладной
+INSERT INTO kursovaya4sem.invoice_item (invoice_id, material_id, quantity, price_at_moment) VALUES
+    (1, 1, 500.00, 45.50),
+    (2, 3, 1000.00, 12.00),
+    (3, 4, 50.00, 85.00);
+
+-- Пример возврата: вернули часть цемента по накладной НК-001
+INSERT INTO kursovaya4sem.material_return (invoice_id, material_id, quantity, return_date) VALUES
+    (1, 1, 50.00, '2025-10-20');
+
+-- Остатки после выдачи и возврата (5000 - 500 + 50 = 4550 и т.д.)
+UPDATE kursovaya4sem.material_stock SET quantity = 4550.00, last_updated = NOW() WHERE material_id = 1;
+UPDATE kursovaya4sem.material_stock SET quantity = 9000.00, last_updated = NOW() WHERE material_id = 3;
+UPDATE kursovaya4sem.material_stock SET quantity = 750.00, last_updated = NOW() WHERE material_id = 4;
